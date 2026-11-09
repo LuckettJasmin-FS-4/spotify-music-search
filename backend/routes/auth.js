@@ -131,15 +131,8 @@ router.get("/callback", async (req, res) => {
       path: "/",
     });
 
-    return res.status(200).json({
-      success: true,
-      message: "Racket authentication successful",
-      user: {
-        id: user.id,
-        displayName: user.display_name,
-      },
-      sessionCreated: true,
-    });
+   // Return the authenticated user to Racket's React frontend.
+return res.redirect("http://127.0.0.1:5173/?login=success");
 
   } catch (err) {
     console.error(
