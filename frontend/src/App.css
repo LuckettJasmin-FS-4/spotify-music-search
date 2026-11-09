@@ -1,0 +1,127 @@
+
+#root {
+  min-height: 100vh;
+}
+
+.login-page {
+  min-height: 100vh;
+  background: radial-gradient(
+    ellipse at 50% 35%,
+    #163a66 0%,
+    #0c203d 45%,
+    #081426 100%
+  );
+  color: #e5f5ff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.ambient-glow {
+  position: absolute;
+  width: 550px;
+  height: 550px;
+  border-radius: 50%;
+  background: #39b9ff;
+  opacity: 0.12;
+  filter: blur(110px);
+  pointer-events: none;
+}
+
+.login-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 520px;
+  text-align: center;
+  padding: 48px 32px;
+  border: 1px solid rgba(145, 212, 255, 0.18);
+  border-radius: 28px;
+  background: rgba(9, 27, 51, 0.65);
+  box-shadow: 0 24px 90px rgba(0, 0, 0, 0.3);
+  backdrop-filter: blur(20px);
+}
+
+.logo-placeholder {
+  margin-bottom: 36px;
+}
+
+.sleeping-icon {
+  display: block;
+  font-size: 64px;
+  color: #8ddcff;
+}
+
+.logo-placeholder h1 {
+  font-size: clamp(52px, 10vw, 82px);
+  letter-spacing: 5px;
+  margin: 0;
+  font-weight: 900;
+  color: #a4e2ff;
+  text-shadow: 0 0 25px rgba(71, 194, 255, 0.65);
+}
+
+.logo-caption {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  letter-spacing: 4px;
+  color: #8faecb;
+}
+
+.login-card h2 {
+  font-size: 23px;
+  margin-bottom: 14px;
+}
+
+.description {
+  color: #a8c5e1;
+  line-height: 1.7;
+  margin-bottom: 30px;
+}
+
+.spotify-button {
+  width: 100%;
+  padding: 17px 24px;
+  border: none;
+  border-radius: 15px;
+  background: linear-gradient(135deg, #8cdbff, #48b6f6);
+  color: #081426;
+  font-size: 16px;
+  font-weight: 800;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.spotify-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 0 30px rgba(72, 182, 246, 0.45);
+}
+
+.music-icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.footer-text {
+  margin-top: 28px;
+  color: #7899b9;
+  font-size: 13px;
+}
+
+@media (max-width: 480px) {
+  .login-card {
+    padding: 36px 22px;
+  }
+}
+.racket-logo {
+  display: block;
+  width: 100%;
+  max-width: 430px;
+  height: auto;
+  margin: 0 auto 12px;
+  filter: drop-shadow(0 0 24px rgba(90, 200, 255, 0.5));
+}
