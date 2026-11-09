@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from 'react'
+import MusicSetup from './components/MusicSetup'
 import './App.css'
 
 type RacketUser = {
@@ -74,24 +75,9 @@ function App() {
         </div>
 
         {user ? (
-          <>
-            <h2>
-              Welcome to Racket, {user.displayName || 'music lover'}!
-            </h2>
-
-            <p className="description">
-              You're connected to Spotify.
-              Your music discovery journey starts here.
-            </p>
-
-            <div className="connection-status">
-              ✓ Spotify connected
-            </div>
-
-            <p className="footer-text">
-              Get comfortable. Your next favorite song is waiting.
-            </p>
-          </>
+          <MusicSetup
+            displayName={user.displayName || 'music lover'}
+          />
         ) : (
           <>
             <h2>Your music. Your mood. Your Racket.</h2>

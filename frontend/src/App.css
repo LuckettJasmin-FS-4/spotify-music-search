@@ -134,3 +134,127 @@
   color: #9ee7ff;
   font-weight: 700;
 }
+/* Racket music setup */
+
+.music-setup {
+  width: 100%;
+  text-align: center;
+}
+
+.music-setup h2 {
+  color: #e5f5ff;
+  margin-bottom: 14px;
+}
+
+.mood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.mood-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 100px;
+  padding: 15px 8px;
+  border: 1px solid rgba(125, 214, 255, 0.25);
+  border-radius: 16px;
+  background: rgba(16, 43, 73, 0.8);
+  color: #e5f5ff;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.mood-button:hover {
+  border-color: #7dd6ff;
+  background: rgba(31, 85, 130, 0.8);
+  transform: translateY(-2px);
+}
+
+.mood-button.selected {
+  border-color: #8de4ff;
+  background: rgba(55, 155, 220, 0.3);
+  box-shadow: 0 0 20px rgba(82, 200, 255, 0.3);
+}
+
+.mood-button:focus-visible {
+  outline: 3px solid #8de4ff;
+  outline-offset: 3px;
+}
+
+.mood-emoji {
+  font-size: 28px;
+}
+
+.music-setup .spotify-button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.selected-moods {
+  color: #9ee7ff;
+  font-weight: 600;
+  line-height: 1.8;
+}
+
+@media (max-width: 480px) {
+  .mood-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+/* Racket mood selection cards */
+
+.music-setup .mood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 28px 0;
+}
+
+.music-setup .mood-button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 100px;
+  width: 100%;
+  padding: 16px 8px;
+  border: 1px solid rgba(125, 214, 255, 0.35);
+  border-radius: 16px;
+  background: #102b49;
+  color: #e5f5ff;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.music-setup .mood-button:hover {
+  background: #1c4b74;
+  border-color: #8de4ff;
+  transform: translateY(-2px);
+}
+
+.music-setup .mood-button.selected {
+  background: #205b86;
+  border-color: #8de4ff;
+  box-shadow: 0 0 22px rgba(82, 200, 255, 0.4);
+}
+
+.music-setup .mood-emoji {
+  font-size: 28px;
+}
+
+@media (max-width: 480px) {
+  .music-setup .mood-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
