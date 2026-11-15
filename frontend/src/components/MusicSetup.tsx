@@ -1,5 +1,6 @@
 
 import { useState } from 'react'
+import MusicSearch from './MusicSearch'
 
 const musicMoods = [
   { name: 'Chill', emoji: '☁️' },
@@ -38,18 +39,8 @@ function MusicSetup({ displayName }: MusicSetupProps) {
   }
 
   if (completed) {
-    return (
-      <div className="music-setup">
-        <h2>You're all set, {displayName}!</h2>
-        <p className="description">
-          Racket is ready to help you discover your next favorite song.
-        </p>
-        <p className="selected-moods">
-          Your vibes: {selectedMoods.join(' · ')}
-        </p>
-      </div>
-    )
-  }
+  return <MusicSearch displayName={displayName} />
+}
 
   return (
     <div className="music-setup">

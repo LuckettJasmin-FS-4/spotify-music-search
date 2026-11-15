@@ -258,3 +258,179 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
+
+/* ========================================
+   RACKET MUSIC SEARCH
+======================================== */
+
+.music-search {
+  width: 100%;
+  min-width: 0;
+  text-align: left;
+}
+
+.music-search h2 {
+  text-align: center;
+  color: #e5f5ff;
+  font-size: clamp(22px, 3vw, 30px);
+}
+
+.music-search > .description {
+  text-align: center;
+  max-width: 620px;
+  margin: 0 auto 28px;
+}
+
+/* Search bar */
+
+.search-form {
+  display: flex;
+  gap: 12px;
+  align-items: stretch;
+  margin: 28px 0 36px;
+}
+
+.search-input {
+  flex: 1;
+  min-width: 0;
+  padding: 16px 18px;
+  border: 1px solid rgba(125, 214, 255, 0.35);
+  border-radius: 14px;
+  background: #102b49;
+  color: #e5f5ff;
+  font-family: inherit;
+  font-size: 16px;
+  outline: none;
+}
+
+.search-input::placeholder {
+  color: #93b6d1;
+}
+
+.search-input:focus {
+  border-color: #8de4ff;
+  box-shadow: 0 0 0 3px rgba(82, 200, 255, 0.18);
+}
+
+.search-form .spotify-button {
+  width: auto;
+  min-width: 150px;
+  padding: 14px 20px;
+}
+
+.search-form .spotify-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+/* Search results */
+
+.search-results {
+  width: 100%;
+  margin-top: 24px;
+}
+
+.search-results h3 {
+  margin: 32px 0 18px;
+  color: #dff4ff;
+  font-size: 22px;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 20px;
+}
+
+.result-card {
+  min-width: 0;
+  padding: 14px;
+  border: 1px solid rgba(125, 214, 255, 0.18);
+  border-radius: 18px;
+  background: rgba(16, 43, 73, 0.85);
+  text-align: left;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+
+.result-card:hover {
+  transform: translateY(-4px);
+  border-color: #7dd6ff;
+}
+
+.result-image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 12px;
+  margin-bottom: 12px;
+}
+
+.result-card h4 {
+  margin: 8px 0;
+  color: #e5f5ff;
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.result-card p {
+  margin: 6px 0 12px;
+  color: #a8c5e1;
+  font-size: 13px;
+}
+
+.result-card a {
+  color: #8de4ff;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.result-card a:hover {
+  text-decoration: underline;
+}
+
+/* Wider layout only when search is active */
+
+.login-card:has(.music-search) {
+  max-width: 1100px;
+  padding: 40px;
+  text-align: left;
+}
+
+.login-page:has(.music-search) {
+  align-items: flex-start;
+  overflow: visible;
+}
+
+.login-card:has(.music-search) .logo-placeholder {
+  max-width: 320px;
+  margin: 0 auto 24px;
+}
+
+/* Responsive layout */
+
+@media (max-width: 768px) {
+  .login-card:has(.music-search) {
+    padding: 28px 20px;
+  }
+
+  .result-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .search-form {
+    flex-direction: column;
+  }
+
+  .search-form .spotify-button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .result-grid {
+    grid-template-columns: 1fr;
+  }
+}
