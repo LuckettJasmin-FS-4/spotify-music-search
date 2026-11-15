@@ -56,7 +56,62 @@ async function saveSpotifyUser({
 
   return result.rows[0];
 }
+async function getSpotifyCredentials(userId) {
+  const query = `
+    SELECT
+      id,
+      encrypted_access_token,
+      encrypted_refresh_token,
+      token_expires_at
+    FROM users
+    WHERE id = $1
+  `;
 
+  const result = await pool.query(query, [userId]);
+
+  return result.rows[0] || null;
+}
+async function updateSpotifyTokens(
+  userId,
+  accessToken,
+  refreshToken,
+  expiresIn
+) {
+  const encryptedAccessToken = encryptToken(accessToken);
+
+  const encryptedRefreshToken = refreshToken
+    ? encryptToken(refreshToken)
+    : null;
+
+  const tokenExpiresAt = new Date(
+    Date.now() + expiresIn * 1000
+  );
+
+  const query = `
+    UPDATE users
+    SET
+      encrypted_access_token = $1,
+      encrypted_refresh_token = COALESCE(
+        $2,
+        encrypted_refresh_token
+      ),
+      token_expires_at = $3,
+      updated_at = CURRENT_TIMESTAMP
+    WHERE id = $4
+    RETURNING id
+  `;
+
+  const result = await pool.query(query, [
+    encryptedAccessToken,
+    encryptedRefreshToken,
+    tokenExpiresAt,
+    userId,
+  ]);
+
+  return result.rows[0] || null;
+}
 module.exports = {
   saveSpotifyUser,
+  getSpotifyCredentials,
+  updateSpotifyTokens,
 };

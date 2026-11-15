@@ -3,6 +3,9 @@ const express = require("express");
 const crypto = require("node:crypto");
 const jwt = require("jsonwebtoken");
 const { saveSpotifyUser } = require("../models/User");
+const {
+  getValidSpotifyToken,
+} = require("../utils/spotifyToken");
 
 const router = express.Router();
 
@@ -188,6 +191,51 @@ router.get("/me", async (req, res) => {
     return res.status(401).json({
       success: false,
       message: "Session invalid or expired",
+    });
+  }
+});
+router.get("/status", async (req, res) => {
+  const sessionToken = req.cookies?.racket_session;
+
+  if (!sessionToken) {
+    return res.json({
+      authenticated: false,
+      needsLogin: true,
+    });
+  }
+
+  let session;
+
+  try {
+    session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+  } catch {
+    return res.json({
+      authenticated: false,
+      needsLogin: true,
+    });
+  }
+
+  try {
+    await getValidSpotifyToken(session.userId);
+
+    return res.json({
+      authenticated: true,
+      needsLogin: false,
+    });
+  } catch (error) {
+    console.error(
+      "Spotify authorization check failed:",
+      error.response?.status || error.message
+    );
+
+    return res.status(503).json({
+      authenticated: false,
+      needsLogin: null,
+      message: "Unable to verify Spotify authorization",
     });
   }
 });

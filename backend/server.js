@@ -5,6 +5,7 @@ const express = require("express");
 const cors = require("cors");
 const authRoutes = require("./routes/auth");
 const cookieParser = require("cookie-parser");
+const spotifyRoutes = require("./routes/spotify");
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -19,6 +20,7 @@ app.use(
 app.use(express.json());
 app.use(cookieParser());
 app.use("/api/auth", authRoutes);
+app.use("/api/spotify", spotifyRoutes);
 
 // Basic API health check
 app.get("/api/health", (req, res) => {
