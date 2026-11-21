@@ -10,12 +10,15 @@ const musicMoods = [
   { name: 'Dreamy', emoji: '🌙' },
   { name: 'Throwbacks', emoji: '💿' },
 ]
-
 type MusicSetupProps = {
   displayName: string
+  onSessionExpired: () => void
 }
 
-function MusicSetup({ displayName }: MusicSetupProps) {
+function MusicSetup({
+  displayName,
+  onSessionExpired,
+}: MusicSetupProps) {
   const [selectedMoods, setSelectedMoods] = useState<string[]>([])
   const [completed, setCompleted] = useState(false)
 
@@ -38,10 +41,14 @@ function MusicSetup({ displayName }: MusicSetupProps) {
     setCompleted(true)
   }
 
-  if (completed) {
-  return <MusicSearch displayName={displayName} />
+if (completed) {
+  return (
+    <MusicSearch
+      displayName={displayName}
+      onSessionExpired={onSessionExpired}
+    />
+  )
 }
-
   return (
     <div className="music-setup">
       <h2>Make yourself at home, {displayName}.</h2>

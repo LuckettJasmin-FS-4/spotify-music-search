@@ -239,5 +239,18 @@ router.get("/status", async (req, res) => {
     });
   }
 });
+// Log out of Racket by clearing the session cookie.
+router.post("/logout", (req, res) => {
+  res.clearCookie("racket_session", {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production",
+    sameSite: "lax",
+    path: "/",
+  });
 
+  return res.json({
+    success: true,
+    message: "Successfully logged out of Racket",
+  });
+});
 module.exports = router;

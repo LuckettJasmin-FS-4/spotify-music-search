@@ -434,3 +434,33 @@
     grid-template-columns: 1fr;
   }
 }
+/* Racket logout button */
+
+.logout-container {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-bottom: 12px;
+}
+
+.logout-button {
+  padding: 10px 18px;
+  border: 1px solid rgba(147, 197, 253, 0.4);
+  border-radius: 999px;
+  background: rgba(30, 58, 95, 0.45);
+  color: #dbeafe;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.logout-button:hover {
+  background: rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+}
+
+.logout-button:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 3px;
+}

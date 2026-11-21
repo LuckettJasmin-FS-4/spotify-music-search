@@ -35,9 +35,13 @@ type SearchResults = {
 }
 type MusicSearchProps = {
   displayName: string
+  onSessionExpired: () => void
 }
 
-function MusicSearch({ displayName }: MusicSearchProps) {
+function MusicSearch({
+  displayName,
+  onSessionExpired,
+}: MusicSearchProps) {
   const [query, setQuery] = useState('')
   const [results, setResults] = useState<SearchResults | null>(null)
   const [loading, setLoading] = useState(false)
@@ -58,13 +62,14 @@ function MusicSearch({ displayName }: MusicSearchProps) {
         { credentials: 'include' }
       )
 
-      if (!response.ok) {
-        throw new Error(
-          response.status === 401
-            ? 'Your session expired. Please reconnect Spotify.'
-            : 'Unable to search Spotify right now.'
-        )
-      }
+     if (response.status === 401) {
+  onSessionExpired()
+  return
+}
+
+if (!response.ok) {
+  throw new Error('Unable to search Spotify right now.')
+}
 
       const data: SearchResults = await response.json()
       setResults(data)
