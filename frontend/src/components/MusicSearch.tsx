@@ -36,13 +36,17 @@ type SearchResults = {
 type MusicSearchProps = {
   displayName: string
   onSessionExpired: () => void
+  selectedMood?: string
 }
-
 function MusicSearch({
   displayName,
   onSessionExpired,
+  selectedMood,
 }: MusicSearchProps) {
-  const [query, setQuery] = useState('')
+
+  const [query, setQuery] = useState(() => {
+  return selectedMood ? `${selectedMood} music` : ''
+})
   const [results, setResults] = useState<SearchResults | null>(null)
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')

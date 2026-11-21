@@ -464,3 +464,37 @@
   outline: 2px solid #93c5fd;
   outline-offset: 3px;
 }
+/* Authenticated Racket dashboard layout */
+
+.login-page.racket-app-layout {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 0;
+}
+
+.racket-app-layout .racket-sidebar {
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+}
+
+.racket-app-layout .login-card {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  width: auto;
+  max-width: none;
+  min-width: 0;
+  margin: 24px;
+  box-sizing: border-box;
+}
+
+@media (max-width: 700px) {
+  .racket-app-layout .login-card {
+    margin: 12px;
+    padding: 20px;
+  }
+}

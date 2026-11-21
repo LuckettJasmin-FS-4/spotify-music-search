@@ -1,0 +1,131 @@
+/* Racket Discover Page */
+
+.discover-page {
+  width: 100%;
+  color: #eaf6ff;
+}
+
+.discover-header {
+  margin-bottom: 32px;
+}
+
+.discover-eyebrow {
+  color: #76d2ff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+}
+
+.discover-header h1 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  margin: 12px 0;
+}
+
+.discover-header > p:last-child {
+  color: #a9c5dc;
+  line-height: 1.7;
+}
+
+/* Featured music banner */
+
+.discover-featured {
+  position: relative;
+  overflow: hidden;
+  padding: 48px 36px;
+  border: 1px solid rgba(118, 210, 255, 0.2);
+  border-radius: 24px;
+  background:
+    radial-gradient(
+      circle at 85% 25%,
+      rgba(120, 95, 255, 0.5),
+      transparent 45%
+    ),
+    linear-gradient(135deg, #103d68, #162447 65%, #251a50);
+}
+
+.discover-featured-content {
+  position: relative;
+  z-index: 1;
+  max-width: 550px;
+}
+
+.discover-featured-content > span {
+  color: #9ce0ff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 2px;
+}
+
+.discover-featured h2 {
+  margin: 18px 0;
+  font-size: clamp(1.6rem, 3vw, 2.5rem);
+}
+
+.discover-featured p {
+  color: #c7ddf1;
+  line-height: 1.7;
+}
+
+/* Mood collections */
+
+.discover-section {
+  margin-top: 40px;
+}
+
+.discover-section h2 {
+  margin-bottom: 20px;
+  font-size: 1.5rem;
+}
+
+.discover-mood-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.discover-mood-card {
+  display: flex;
+  align-items: flex-end;
+  min-height: 135px;
+  padding: 22px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #17618b, #253d75);
+  font-size: 1.25rem;
+  font-weight: 700;
+  transition: transform 0.2s ease;
+}
+
+.discover-mood-card:nth-child(2) {
+  background: linear-gradient(135deg, #c46a94, #704bb1);
+}
+
+.discover-mood-card:nth-child(3) {
+  background: linear-gradient(135deg, #318b93, #235a79);
+}
+
+.discover-mood-card:nth-child(4) {
+  background: linear-gradient(135deg, #e58b50, #a74480);
+}
+
+.discover-mood-card:nth-child(5) {
+  background: linear-gradient(135deg, #6d69c8, #354a99);
+}
+
+.discover-mood-card:nth-child(6) {
+  background: linear-gradient(135deg, #b56d70, #7a4d9e);
+}
+
+@media (max-width: 700px) {
+  .discover-featured {
+    padding: 30px 22px;
+  }
+
+  .discover-mood-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .discover-mood-card {
+    min-height: 105px;
+    padding: 16px;
+  }
+}

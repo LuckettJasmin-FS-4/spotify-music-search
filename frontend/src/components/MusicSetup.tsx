@@ -13,14 +13,19 @@ const musicMoods = [
 type MusicSetupProps = {
   displayName: string
   onSessionExpired: () => void
+  selectedMood?: string
 }
 
 function MusicSetup({
   displayName,
   onSessionExpired,
+  selectedMood,
 }: MusicSetupProps) {
-  const [selectedMoods, setSelectedMoods] = useState<string[]>([])
-  const [completed, setCompleted] = useState(false)
+
+const [selectedMoods, setSelectedMoods] = useState<string[]>([])
+  const [completed, setCompleted] = useState(
+  () => Boolean(selectedMood)
+)
 
   const toggleMood = (mood: string) => {
     setSelectedMoods((current) =>
@@ -41,14 +46,17 @@ function MusicSetup({
     setCompleted(true)
   }
 
-if (completed) {
+  if (completed) {
   return (
     <MusicSearch
       displayName={displayName}
       onSessionExpired={onSessionExpired}
+      selectedMood={selectedMood}
     />
   )
 }
+
+
   return (
     <div className="music-setup">
       <h2>Make yourself at home, {displayName}.</h2>

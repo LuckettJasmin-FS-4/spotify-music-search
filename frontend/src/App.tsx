@@ -1,6 +1,10 @@
 
 import { useEffect, useState } from 'react'
 import MusicSetup from './components/MusicSetup'
+import RacketPages from './components/RacketPages'
+import RacketSidebar, {
+  type RacketPage,
+} from './components/RacketSidebar'
 import './App.css'
 
 type RacketUser = {
@@ -11,6 +15,15 @@ type RacketUser = {
 function App() {
   const [user, setUser] = useState<RacketUser | null>(null)
   const [loading, setLoading] = useState(true)
+  const [activePage, setActivePage] = useState<RacketPage>('home')
+  const [selectedMood, setSelectedMood] = useState<string | undefined>(
+  undefined
+)
+ const handleMoodSelect = (mood: string) => {
+  localStorage.setItem('racket-discover-mood', mood)
+  setSelectedMood(mood)
+  setActivePage('search')
+}
 
   useEffect(() => {
   let active = true
@@ -113,11 +126,18 @@ const handleLogout = async () => {
     )
   }
 
-  return (
-    <main className="login-page">
-      <div className="ambient-glow" />
+ return (
+  <main className={`login-page ${user ? 'racket-app-layout' : ''}`}>
+    <div className="ambient-glow" />
 
-      <section className="login-card">
+    {user && (
+      <RacketSidebar
+        activePage={activePage}
+        onNavigate={setActivePage}
+      />
+    )}
+
+    <section className="login-card">
         {user && (
   <div className="logout-container">
     <button
@@ -140,12 +160,21 @@ const handleLogout = async () => {
           </span>
         </div>
 
-        {user ? (
-          <MusicSetup
+       {user ? (
+  activePage === 'home' || activePage === 'search' ? (
+   <MusicSetup
   displayName={user.displayName || 'music lover'}
   onSessionExpired={handleSessionExpired}
+  selectedMood={selectedMood}
 />
-        ) : (
+  ) : (
+    <RacketPages
+  activePage={activePage}
+  onSearch={() => setActivePage('search')}
+  onMoodSelect={handleMoodSelect}
+/>
+  )
+) : (
           <>
             <h2>Your music. Your mood. Your Racket.</h2>
 

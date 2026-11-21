@@ -1,0 +1,117 @@
+/* Racket collapsible navigation */
+
+.racket-sidebar {
+  width: 240px;
+  min-width: 240px;
+  min-height: 100vh;
+  padding: 24px 14px;
+  background: #081a30;
+  border-right: 1px solid rgba(125, 190, 255, 0.15);
+  color: #e5f3ff;
+  box-sizing: border-box;
+  transition: width 0.3s ease, min-width 0.3s ease;
+}
+
+.racket-sidebar.collapsed {
+  width: 76px;
+  min-width: 76px;
+}
+
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 48px;
+  margin-bottom: 36px;
+  padding: 0 10px;
+}
+
+.sidebar-brand {
+  color: #72c9ff;
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+}
+
+.sidebar-toggle {
+  border: none;
+  background: transparent;
+  color: #b9e5ff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 8px;
+}
+
+.sidebar-toggle:hover {
+  background: rgba(105, 190, 255, 0.15);
+}
+
+.sidebar-navigation {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  background: transparent;
+  color: #b5cde3;
+  font: inherit;
+  font-size: 0.95rem;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, color 0.2s ease;
+}
+
+.sidebar-link:hover {
+  background: rgba(105, 190, 255, 0.12);
+  color: #ffffff;
+}
+
+.sidebar-link.active {
+  background: rgba(83, 184, 255, 0.2);
+  color: #76d2ff;
+  font-weight: 700;
+}
+
+.sidebar-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 22px;
+  font-size: 1.4rem;
+}
+
+.sidebar-label {
+  white-space: nowrap;
+}
+
+.racket-sidebar.collapsed .sidebar-header {
+  justify-content: center;
+  padding: 0;
+}
+
+.racket-sidebar.collapsed .sidebar-link {
+  justify-content: center;
+  padding: 14px 8px;
+}
+
+.sidebar-toggle:focus-visible,
+.sidebar-link:focus-visible {
+  outline: 2px solid #76d2ff;
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .racket-sidebar,
+  .sidebar-link {
+    transition: none;
+  }
+}
