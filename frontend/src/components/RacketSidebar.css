@@ -115,3 +115,16 @@
     transition: none;
   }
 }
+/* Compact mobile navigation */
+
+@media (max-width: 600px) {
+  .racket-sidebar.collapsed {
+    width: 56px;
+    min-width: 56px;
+    padding: 20px 6px;
+  }
+
+  .racket-sidebar.collapsed .sidebar-link {
+    padding: 12px 6px;
+  }
+}

@@ -361,3 +361,41 @@
     animation: none;
   }
 }
+/* Responsive sleeping mascot */
+
+@media (max-width: 768px) {
+  .dream-racket-image {
+    width: 320px;
+    max-width: 85vw;
+  }
+}
+
+@media (max-width: 480px) {
+  .dream-racket-image {
+    width: 240px;
+    max-width: 80vw;
+  }
+}
+/* Mobile Dream Mode music cards */
+
+@media (max-width: 600px) {
+  .dream-mode-moods {
+    grid-template-columns: 1fr;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .dream-mood-card {
+    min-width: 0;
+    padding: 20px 14px;
+  }
+
+  .dream-mood-card h3 {
+    font-size: 1.1rem;
+  }
+
+  .dream-mood-card p {
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+}

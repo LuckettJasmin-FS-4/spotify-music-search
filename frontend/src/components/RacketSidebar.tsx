@@ -31,7 +31,9 @@ export default function RacketSidebar({
   activePage,
   onNavigate,
 }: RacketSidebarProps) {
-  const [collapsed, setCollapsed] = useState(false)
+const [collapsed, setCollapsed] = useState(
+  () => window.matchMedia('(max-width: 768px)').matches
+)
 
   return (
     <aside
