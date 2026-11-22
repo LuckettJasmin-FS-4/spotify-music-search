@@ -59,10 +59,11 @@ router.get("/search", async (req, res) => {
       albums: response.data.albums?.items || [],
     });
   } catch (error) {
-    console.error(
-      "Spotify search failed:",
-      error.response?.status || error.message
-    );
+   console.error("Spotify save failed:", {
+  status: error.response?.status,
+  details: error.response?.data?.error,
+  message: error.message,
+});
 
     if (error.name === "TokenExpiredError" ||
         error.name === "JsonWebTokenError") {
@@ -120,10 +121,11 @@ router.get("/playlists", async (req, res) => {
       total: response.data.total || 0,
     });
   } catch (error) {
-    console.error(
-      "Spotify playlists failed:",
-      error.response?.status || error.message
-    );
+    console.error("Spotify save failed:", {
+  status: error.response?.status,
+  details: error.response?.data?.error,
+  message: error.message,
+});
 
     if (
       error.name === "TokenExpiredError" ||
@@ -332,5 +334,79 @@ router.get("/followed-artists", async (req, res) => {
     });
   }
 });
+// Save a song to the logged-in user's Spotify library.
+router.put("/save-track/:trackId", async (req, res) => {
+  const sessionToken = req.cookies?.racket_session;
+  const { trackId } = req.params;
 
+  if (!sessionToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to Racket first",
+    });
+  }
+
+  if (!/^[A-Za-z0-9]{22}$/.test(trackId)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Spotify track ID",
+    });
+  }
+
+  try {
+    const session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+
+    const spotifyToken = await getValidSpotifyToken(
+      session.userId
+    );
+
+    await axios.put(
+      `https://api.spotify.com/v1/me/tracks?ids=${encodeURIComponent(trackId)}`,
+      null,
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.json({
+      success: true,
+      message: "Song saved to your Spotify library!",
+      trackId,
+    });
+  } catch (error) {
+    console.error(
+      "Spotify save failed:",
+      error.response?.status || error.message
+    );
+
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Your Racket session has expired",
+      });
+    }
+
+    if (error.response?.status === 403) {
+      return res.status(403).json({
+        success: false,
+        message: "Spotify permission required. Please reconnect your account.",
+      });
+    }
+
+    return res.status(502).json({
+      success: false,
+      message: "Unable to save this song right now",
+    });
+  }
+});
 module.exports = router;

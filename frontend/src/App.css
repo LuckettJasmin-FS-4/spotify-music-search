@@ -518,3 +518,88 @@
     padding: 20px;
   }
 }
+/* Happy Racket save celebration */
+.racket-save-celebration {
+  position: fixed;
+  z-index: 9999;
+  bottom: 28px;
+  right: 28px;
+  width: min(280px, calc(100vw - 32px));
+  padding: 24px 20px;
+  text-align: center;
+  border: 1px solid rgba(160, 210, 255, 0.5);
+  border-radius: 24px;
+  background: linear-gradient(145deg, #142b55, #315b94);
+  color: white;
+  box-shadow: 0 15px 55px rgba(50, 125, 255, 0.3);
+  animation: racket-celebration-pop 0.5s ease-out both;
+  pointer-events: none;
+}
+
+.racket-celebration-heart {
+  font-size: 56px;
+  filter: drop-shadow(0 0 16px #7bc5ff);
+  animation: racket-heart-beat 0.7s ease-in-out infinite alternate;
+}
+
+.racket-celebration-face {
+  font-size: 76px;
+  line-height: 1;
+  margin-top: -16px;
+  animation: racket-happy-bounce 0.65s ease-in-out infinite alternate;
+}
+
+.racket-save-celebration p {
+  margin: 12px 0 4px;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.racket-save-celebration > span:last-child {
+  font-size: 13px;
+  color: #d4eaff;
+}
+
+.racket-celebration-sparkle {
+  position: absolute;
+  font-size: 30px;
+  color: #bde8ff;
+  animation: racket-sparkle 0.8s ease-in-out infinite alternate;
+}
+
+.sparkle-one { top: 20px; left: 30px; }
+.sparkle-two { top: 45px; right: 25px; animation-delay: 0.2s; }
+.sparkle-three { top: 105px; left: 40px; animation-delay: 0.4s; }
+
+@keyframes racket-celebration-pop {
+  from { opacity: 0; transform: translateY(35px) scale(0.7); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@keyframes racket-heart-beat {
+  to { transform: scale(1.2); }
+}
+
+@keyframes racket-happy-bounce {
+  to { transform: translateY(-10px) rotate(7deg); }
+}
+
+@keyframes racket-sparkle {
+  to { opacity: 0.3; transform: scale(1.5) rotate(25deg); }
+}
+
+@media (max-width: 600px) {
+  .racket-save-celebration {
+    right: 16px;
+    bottom: 16px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .racket-save-celebration,
+  .racket-celebration-heart,
+  .racket-celebration-face,
+  .racket-celebration-sparkle {
+    animation: none;
+  }
+}
