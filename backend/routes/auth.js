@@ -23,7 +23,7 @@ router.get("/login", (req, res) => {
   const params = new URLSearchParams({
     response_type: "code",
     client_id: clientId,
-    scope: "user-read-private user-read-email",
+   scope: "user-read-private user-read-email playlist-read-private playlist-read-collaborative",
     redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     state,
   });

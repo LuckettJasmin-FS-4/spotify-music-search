@@ -1,5 +1,6 @@
 import type { RacketPage } from './RacketSidebar'
 import DiscoverPage from './DiscoverPage'
+import PlaylistsPage from './PlaylistsPage'
 import './DiscoverPage.css'
 
 type RacketPagesProps = {
@@ -39,6 +40,9 @@ export default function RacketPages({
   if (activePage === 'discover') {
     return <DiscoverPage onMoodSelect={onMoodSelect} />
   }
+  if (activePage === 'playlists') {
+  return <PlaylistsPage />
+}
   if (activePage === 'search') {
     return (
       <div className="racket-page">

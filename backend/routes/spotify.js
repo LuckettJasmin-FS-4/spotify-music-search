@@ -78,5 +78,67 @@ router.get("/search", async (req, res) => {
     });
   }
 });
+// Get the logged-in user's Spotify playlists.
+router.get("/playlists", async (req, res) => {
+  const sessionToken = req.cookies?.racket_session;
 
+  if (!sessionToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to Racket first",
+    });
+  }
+
+  try {
+    const session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+
+    const spotifyToken = await getValidSpotifyToken(
+      session.userId
+    );
+
+    const response = await axios.get(
+      "https://api.spotify.com/v1/me/playlists",
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+        params: {
+          limit: 20,
+          offset: 0,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.json({
+      success: true,
+      playlists: response.data.items || [],
+      total: response.data.total || 0,
+    });
+  } catch (error) {
+    console.error(
+      "Spotify playlists failed:",
+      error.response?.status || error.message
+    );
+
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Your Racket session has expired",
+      });
+    }
+
+    return res.status(502).json({
+      success: false,
+      message: "Unable to retrieve Spotify playlists",
+    });
+  }
+});
 module.exports = router;

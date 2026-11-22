@@ -1,0 +1,65 @@
+/* Racket Playlist Gallery */
+
+.playlist-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+  gap: 24px;
+  margin-top: 28px;
+}
+
+.playlist-card {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid rgba(170, 195, 255, 0.15);
+  border-radius: 20px;
+  background: rgba(26, 39, 76, 0.65);
+  color: #f1f5ff;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.playlist-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(151, 180, 255, 0.55);
+  box-shadow: 0 14px 35px rgba(75, 105, 210, 0.2);
+}
+
+.playlist-card img {
+  width: 100%;
+  aspect-ratio: 1;
+  object-fit: cover;
+  border-radius: 14px;
+}
+
+.playlist-card h3 {
+  margin: 4px 0 0;
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.playlist-card p {
+  margin: 0;
+  font-size: 0.85rem;
+  color: #aebddd;
+  line-height: 1.5;
+}
+
+.playlist-card:focus-visible {
+  outline: 2px solid #a5c8ff;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .playlist-card {
+    transition: none;
+  }
+
+  .playlist-card:hover {
+    transform: none;
+  }
+}
