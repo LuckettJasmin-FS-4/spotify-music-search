@@ -51,6 +51,9 @@
   color: #e8f4ff;
   font-size: 1rem;
   margin: 0 0 6px;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  text-align: center;
 }
 
 .saved-album-card p {

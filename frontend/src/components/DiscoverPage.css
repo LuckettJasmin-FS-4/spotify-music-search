@@ -92,6 +92,7 @@
   align-items: flex-end;
   min-height: 135px;
   padding: 22px;
+    color: #ffffff;
   border-radius: 18px;
   background: linear-gradient(135deg, #17618b, #253d75);
   font-size: 1.25rem;
