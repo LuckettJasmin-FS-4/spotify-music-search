@@ -249,9 +249,29 @@
   box-shadow: 0 0 22px rgba(82, 200, 255, 0.4);
 }
 
+
 .music-setup .mood-emoji {
-  font-size: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #b9e9ff;
 }
+
+.music-setup .mood-emoji svg {
+  filter: drop-shadow(0 0 8px rgba(118, 210, 255, 0.35));
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.music-setup .mood-button:hover .mood-emoji svg {
+  transform: scale(1.15);
+  filter: drop-shadow(0 0 12px rgba(118, 210, 255, 0.65));
+}
+
+.music-setup .mood-button.selected .mood-emoji svg {
+  color: #e0f6ff;
+  filter: drop-shadow(0 0 14px rgba(118, 210, 255, 0.8));
+}
+
 
 @media (max-width: 480px) {
   .music-setup .mood-grid {

@@ -2,6 +2,7 @@ import type { RacketPage } from './RacketSidebar'
 import DiscoverPage from './DiscoverPage'
 import PlaylistsPage from './PlaylistsPage'
 import LibraryPage from './LibraryPage'
+import DreamMode from './DreamMode'
 import './DiscoverPage.css'
 
 type RacketPagesProps = {
@@ -48,6 +49,9 @@ export default function RacketPages({
 }
 if (activePage === 'library') {
   return <LibraryPage onNavigate={onNavigate} />
+}
+if (activePage === 'dream') {
+  return <DreamMode onMoodSelect={onMoodSelect} />
 }
   if (activePage === 'search') {
     return (

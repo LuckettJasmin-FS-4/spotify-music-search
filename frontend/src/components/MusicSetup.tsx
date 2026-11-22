@@ -1,15 +1,18 @@
 
 import { useState } from 'react'
 import MusicSearch from './MusicSearch'
+import { Cloud, Sun, Brain, Zap, Moon, Disc3 } from 'lucide-react'
+
 
 const musicMoods = [
-  { name: 'Chill', emoji: '☁️' },
-  { name: 'Happy', emoji: '☀️' },
-  { name: 'Focused', emoji: '🎧' },
-  { name: 'Energetic', emoji: '⚡' },
-  { name: 'Dreamy', emoji: '🌙' },
-  { name: 'Throwbacks', emoji: '💿' },
+  { name: 'Chill', icon: Cloud },
+  { name: 'Happy', icon: Sun },
+  { name: 'Focused', icon: Brain },
+  { name: 'Energetic', icon: Zap },
+  { name: 'Dreamy', icon: Moon },
+  { name: 'Throwbacks', icon: Disc3 },
 ]
+
 type MusicSetupProps = {
   displayName: string
   onSessionExpired: () => void
@@ -77,7 +80,9 @@ const [selectedMoods, setSelectedMoods] = useState<string[]>([])
             onClick={() => toggleMood(mood.name)}
             aria-pressed={selectedMoods.includes(mood.name)}
           >
-            <span className="mood-emoji">{mood.emoji}</span>
+           <span className="mood-emoji" aria-hidden="true">
+  <mood.icon size={30} strokeWidth={1.6} />
+</span>
             <span>{mood.name}</span>
           </button>
         ))}

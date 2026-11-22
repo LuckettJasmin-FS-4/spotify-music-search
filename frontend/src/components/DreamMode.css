@@ -1,0 +1,324 @@
+
+
+.dream-mode {
+  position: relative;
+  overflow: hidden;
+  min-height: 75vh;
+  padding: 48px 32px;
+  border-radius: 24px;
+  background: linear-gradient(
+    145deg,
+    #101b3c 0%,
+    #202650 48%,
+    #382d60 100%
+  );
+  color: #eaf3ff;
+  isolation: isolate;
+}
+
+.dream-mode::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    radial-gradient(2px 2px at 15% 20%, #ffffff 98%, transparent),
+    radial-gradient(2px 2px at 75% 15%, #ffffff 98%, transparent),
+    radial-gradient(3px 3px at 45% 65%, #b7d8ff 98%, transparent),
+    radial-gradient(2px 2px at 85% 75%, #ffffff 98%, transparent),
+    radial-gradient(2px 2px at 25% 85%, #d8c5ff 98%, transparent);
+  background-repeat: no-repeat;
+  opacity: 0.7;
+  animation: dream-stars 5s ease-in-out infinite alternate;
+}
+
+.dream-mode-header {
+  text-align: center;
+  max-width: 650px;
+  margin: 0 auto 44px;
+}
+
+.dream-mode-moon {
+  display: inline-block;
+  font-size: 4.5rem;
+  margin-bottom: 20px;
+  filter: drop-shadow(0 0 24px rgba(195, 205, 255, 0.6));
+  animation: dream-float 5s ease-in-out infinite;
+}
+
+.dream-mode-header h2 {
+  font-size: clamp(2rem, 4vw, 3rem);
+  color: #f0eaff;
+  margin-bottom: 16px;
+}
+
+.dream-mode-header p {
+  color: #c1cce9;
+  font-size: 1.05rem;
+  line-height: 1.7;
+}
+
+.dream-mode-moods {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 22px;
+  max-width: 850px;
+  margin: 0 auto;
+}
+
+.dream-mood-card {
+  appearance: none;
+  font: inherit;
+  cursor: pointer;
+  text-align: center;
+  padding: 32px 24px;
+  border-radius: 20px;
+  border: 1px solid rgba(190, 205, 255, 0.2);
+  background: rgba(110, 130, 190, 0.12);
+  color: #edf3ff;
+  backdrop-filter: blur(10px);
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease,
+    box-shadow 0.3s ease;
+}
+
+.dream-mood-card:hover {
+  transform: translateY(-6px);
+  background: rgba(140, 150, 220, 0.22);
+  box-shadow: 0 12px 32px rgba(125, 145, 255, 0.15);
+}
+
+.dream-mood-card:focus-visible {
+  outline: 3px solid #b7d8ff;
+  outline-offset: 4px;
+}
+
+.dream-mood-icon {
+  display: block;
+  font-size: 2.8rem;
+  margin-bottom: 16px;
+}
+
+.dream-mood-card h3 {
+  color: #f2ecff;
+  font-size: 1.3rem;
+  margin-bottom: 10px;
+}
+
+.dream-mood-card p {
+  color: #bfcbe7;
+  line-height: 1.6;
+}
+
+.dream-mode-footer {
+  text-align: center;
+  margin-top: 42px;
+  color: #c8b9ef;
+  font-style: italic;
+}
+
+@keyframes dream-float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+@keyframes dream-stars {
+  from {
+    opacity: 0.35;
+  }
+
+  to {
+    opacity: 0.9;
+  }
+}
+
+@media (max-width: 600px) {
+  .dream-mode {
+    padding: 36px 18px;
+  }
+
+  .dream-mode-moods {
+    grid-template-columns: 1fr;
+  }
+
+  .dream-mood-card {
+    padding: 26px 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dream-mode::before,
+  .dream-mode-moon {
+    animation: none;
+  }
+
+  .dream-mood-card {
+    transition: none;
+  }
+}
+
+/* Dream Mode animated night sky */
+
+.dream-sky {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: -1;
+}
+
+/* Star layers */
+
+.dream-stars {
+  position: absolute;
+  inset: 0;
+  background-repeat: repeat;
+  animation: dream-twinkle 3s ease-in-out infinite alternate;
+}
+
+.dream-stars-small {
+  background-image:
+    radial-gradient(1px 1px at 20px 30px, #fff 99%, transparent),
+    radial-gradient(1px 1px at 85px 110px, #d8e8ff 99%, transparent),
+    radial-gradient(1px 1px at 145px 65px, #fff 99%, transparent),
+    radial-gradient(1px 1px at 200px 170px, #d6c9ff 99%, transparent);
+  background-size: 230px 200px;
+  opacity: 0.8;
+}
+
+.dream-stars-medium {
+  background-image:
+    radial-gradient(2px 2px at 40px 75px, #fff 99%, transparent),
+    radial-gradient(2px 2px at 170px 140px, #c4dcff 99%, transparent),
+    radial-gradient(2px 2px at 260px 45px, #fff 99%, transparent);
+  background-size: 310px 220px;
+  animation-duration: 7s;
+}
+
+.dream-stars-large {
+  background-image:
+    radial-gradient(3px 3px at 100px 100px, #fff 99%, transparent),
+    radial-gradient(3px 3px at 290px 180px, #c8b6ff 99%, transparent);
+  background-size: 390px 270px;
+  filter: drop-shadow(0 0 5px #b8d5ff);
+  animation-duration: 9s;
+}
+
+/* Floating clouds */
+
+.dream-cloud {
+  position: absolute;
+  width: 320px;
+  height: 110px;
+  border-radius: 50%;
+  background: rgba(170, 185, 255, 0.13);
+  filter: blur(24px);
+  animation: dream-cloud-drift 24s ease-in-out infinite alternate;
+}
+
+.dream-cloud::before,
+.dream-cloud::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: inherit;
+}
+
+.dream-cloud::before {
+  width: 180px;
+  height: 140px;
+  left: 40px;
+  top: -55px;
+}
+
+.dream-cloud::after {
+  width: 150px;
+  height: 110px;
+  right: 30px;
+  top: -35px;
+}
+
+
+.dream-cloud-one {
+  top: 12%;
+  left: -80px;
+  animation-duration: 12s;
+}
+
+.dream-cloud-two {
+  top: 48%;
+  right: -100px;
+  animation-duration: 15s;
+  animation-delay: -5s;
+}
+
+.dream-cloud-three {
+  bottom: 5%;
+  left: 25%;
+  animation-duration: 13s;
+  animation-delay: -7s;
+}
+
+
+/* Gentle animation */
+
+
+@keyframes dream-twinkle {
+  0% {
+    opacity: 0.25;
+    filter: brightness(0.8);
+  }
+
+  25% {
+    opacity: 1;
+    filter: brightness(1.8);
+  }
+
+  50% {
+    opacity: 0.45;
+    filter: brightness(1);
+  }
+
+  75% {
+    opacity: 1;
+    filter: brightness(2);
+  }
+
+  100% {
+    opacity: 0.3;
+    filter: brightness(0.9);
+  }
+}
+
+
+
+@keyframes dream-cloud-drift {
+  0% {
+    transform: translate(-100px, 0);
+  }
+
+  50% {
+    transform: translate(100px, -25px);
+  }
+
+  100% {
+    transform: translate(280px, 10px);
+  }
+}
+
+
+/* Accessibility */
+
+@media (prefers-reduced-motion: reduce) {
+  .dream-stars,
+  .dream-cloud {
+    animation: none;
+  }
+}

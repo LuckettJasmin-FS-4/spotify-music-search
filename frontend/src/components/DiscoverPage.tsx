@@ -1,3 +1,4 @@
+import { Cloud, Sun, Brain, Zap, Moon, Disc3 } from 'lucide-react'
 
 type DiscoverPageProps = {
   onMoodSelect: (mood: string) => void
@@ -32,22 +33,24 @@ export default function DiscoverPage({
         <h2>Explore by Mood</h2>
 
         <div className="discover-mood-grid">
-          {[
-            'Chill',
-            'Happy',
-            'Focused',
-            'Energetic',
-            'Dreamy',
-            'Throwbacks',
-          ].map((mood) => (
-            <button
-              type="button"
-              className="discover-mood-card"
-              key={mood}
-              onClick={() => onMoodSelect(mood)}
-            >
-              <span>{mood}</span>
-            </button>
+          
+           {[
+  { name: 'Chill', icon: Cloud },
+  { name: 'Happy', icon: Sun },
+  { name: 'Focused', icon: Brain },
+  { name: 'Energetic', icon: Zap },
+  { name: 'Dreamy', icon: Moon },
+  { name: 'Throwbacks', icon: Disc3 },
+].map((mood) => (
+           <button
+  type="button"
+  className="discover-mood-card"
+  key={mood.name}
+  onClick={() => onMoodSelect(mood.name)}
+>
+  <mood.icon size={32} strokeWidth={1.6} aria-hidden="true" />
+  <span>{mood.name}</span>
+</button>
           ))}
         </div>
       </section>
