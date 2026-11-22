@@ -53,7 +53,13 @@ export default function DreamMode({
         <span className="dream-mode-moon" aria-hidden="true">
           🌙
         </span>
-
+<div className="dream-racket">
+  <img
+    src="/racket-sleeping.png"
+    alt="Racket the raccoon resting beneath the stars"
+    className="dream-racket-image"
+  />
+</div>
         <h2>Welcome to Dream Mode</h2>
 
         <p>

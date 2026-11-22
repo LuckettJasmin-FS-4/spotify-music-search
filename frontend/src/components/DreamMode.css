@@ -322,3 +322,42 @@
     animation: none;
   }
 }
+
+/* Dream Mode sleeping Racket mascot */
+
+.dream-racket {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 12px auto 20px;
+}
+
+.dream-racket-image {
+  display: block;
+  width: 600px;
+  max-width: 65vw;
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(0 0 18px rgba(100, 190, 255, 0.25));
+  animation: racket-sleep-breathe 4s ease-in-out infinite;
+}
+
+/* Gentle sleeping animation */
+
+@keyframes racket-sleep-breathe {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+
+  50% {
+    transform: translateY(-5px) scale(1.035);
+  }
+}
+
+/* Accessibility: respect reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  .dream-racket-image {
+    animation: none;
+  }
+}
