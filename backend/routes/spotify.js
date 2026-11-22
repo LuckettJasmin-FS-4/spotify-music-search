@@ -141,4 +141,196 @@ router.get("/playlists", async (req, res) => {
     });
   }
 });
+// Get the logged-in user's liked songs.
+router.get("/liked-songs", async (req, res) => {
+  const sessionToken = req.cookies?.racket_session;
+
+  if (!sessionToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to Racket first",
+    });
+  }
+
+  try {
+    const session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+
+    const spotifyToken = await getValidSpotifyToken(
+      session.userId
+    );
+
+    const response = await axios.get(
+      "https://api.spotify.com/v1/me/tracks",
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+        params: {
+          limit: 20,
+          offset: 0,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.json({
+      success: true,
+      tracks: response.data.items || [],
+      total: response.data.total || 0,
+    });
+  } catch (error) {
+    console.error(
+      "Spotify liked songs failed:",
+      error.response?.status || error.message
+    );
+
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Your Racket session has expired",
+      });
+    }
+
+    return res.status(502).json({
+      success: false,
+      message: "Unable to retrieve liked songs",
+    });
+  }
+});
+
+// Get the logged-in user's saved Spotify albums.
+router.get("/saved-albums", async (req, res) => {
+  const sessionToken = req.cookies?.racket_session;
+
+  if (!sessionToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to Racket first",
+    });
+  }
+
+  try {
+    const session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+
+    const spotifyToken = await getValidSpotifyToken(
+      session.userId
+    );
+
+    const response = await axios.get(
+      "https://api.spotify.com/v1/me/albums",
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+        params: {
+          limit: 20,
+          offset: 0,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.json({
+      success: true,
+      albums: response.data.items || [],
+      total: response.data.total || 0,
+    });
+  } catch (error) {
+    console.error(
+      "Spotify saved albums failed:",
+      error.response?.status || error.message
+    );
+
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Your Racket session has expired",
+      });
+    }
+
+    return res.status(502).json({
+      success: false,
+      message: "Unable to retrieve saved albums",
+    });
+  }
+});
+
+// Get the logged-in user's followed Spotify artists.
+router.get("/followed-artists", async (req, res) => {
+  const sessionToken = req.cookies?.racket_session;
+
+  if (!sessionToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to Racket first",
+    });
+  }
+
+  try {
+    const session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+
+    const spotifyToken = await getValidSpotifyToken(
+      session.userId
+    );
+
+    const response = await axios.get(
+      "https://api.spotify.com/v1/me/following",
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+        params: {
+          type: "artist",
+          limit: 20,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.json({
+      success: true,
+      artists: response.data.artists?.items || [],
+      total: response.data.artists?.total || 0,
+    });
+  } catch (error) {
+    console.error(
+      "Spotify followed artists failed:",
+      error.response?.status || error.message
+    );
+
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Your Racket session has expired",
+      });
+    }
+
+    return res.status(502).json({
+      success: false,
+      message: "Unable to retrieve followed artists",
+    });
+  }
+});
+
 module.exports = router;

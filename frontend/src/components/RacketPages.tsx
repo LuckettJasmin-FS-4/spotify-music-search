@@ -1,12 +1,14 @@
 import type { RacketPage } from './RacketSidebar'
 import DiscoverPage from './DiscoverPage'
 import PlaylistsPage from './PlaylistsPage'
+import LibraryPage from './LibraryPage'
 import './DiscoverPage.css'
 
 type RacketPagesProps = {
   activePage: RacketPage
   onSearch: () => void
   onMoodSelect: (mood: string) => void
+  onNavigate: (page: RacketPage) => void
 }
 
 const pageDetails = {
@@ -36,12 +38,16 @@ export default function RacketPages({
   activePage,
   onSearch,
   onMoodSelect,
+  onNavigate,
 }: RacketPagesProps) {
   if (activePage === 'discover') {
     return <DiscoverPage onMoodSelect={onMoodSelect} />
   }
   if (activePage === 'playlists') {
   return <PlaylistsPage />
+}
+if (activePage === 'library') {
+  return <LibraryPage onNavigate={onNavigate} />
 }
   if (activePage === 'search') {
     return (

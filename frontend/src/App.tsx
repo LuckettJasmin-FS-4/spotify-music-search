@@ -168,10 +168,11 @@ const handleLogout = async () => {
   selectedMood={selectedMood}
 />
   ) : (
-    <RacketPages
+ <RacketPages
   activePage={activePage}
   onSearch={() => setActivePage('search')}
   onMoodSelect={handleMoodSelect}
+  onNavigate={setActivePage}
 />
   )
 ) : (
