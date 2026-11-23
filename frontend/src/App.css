@@ -603,3 +603,21 @@
     animation: none;
   }
 }
+.screensaver-launch-button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 100;
+  padding: 12px 20px;
+  border: 1px solid #8adfff;
+  border-radius: 30px;
+  background: linear-gradient(135deg, #163d70, #2977b5);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 8px 28px rgba(25, 125, 220, 0.35);
+  cursor: pointer;
+}
+
+.screensaver-launch-button:hover {
+  background: #358fce;
+}

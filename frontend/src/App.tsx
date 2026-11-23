@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react'
 import MusicSetup from './components/MusicSetup'
 import RacketPages from './components/RacketPages'
+
 import RacketSidebar, {
   type RacketPage,
 } from './components/RacketSidebar'
@@ -13,11 +14,13 @@ type RacketUser = {
 }
 
 function App() {
+ 
   const [user, setUser] = useState<RacketUser | null>(null)
   const [loading, setLoading] = useState(true)
   const [activePage, setActivePage] = useState<RacketPage>('home')
   const [selectedMood, setSelectedMood] = useState<string | undefined>(
-  undefined
+ undefined
+  
 )
  const handleMoodSelect = (mood: string) => {
   localStorage.setItem('racket-discover-mood', mood)
@@ -119,7 +122,7 @@ const handleLogout = async () => {
   if (loading) {
     return (
       <main className="login-page">
-        <section className="login-card">
+  <section className="login-card">
           <p>Waking up Racket...</p>
         </section>
       </main>
@@ -128,6 +131,8 @@ const handleLogout = async () => {
 
  return (
   <main className={`login-page ${user ? 'racket-app-layout' : ''}`}>
+   
+
     <div className="ambient-glow" />
 
     {user && (
@@ -198,6 +203,8 @@ const handleLogout = async () => {
           </>
         )}
       </section>
+    
+
     </main>
   )
 }

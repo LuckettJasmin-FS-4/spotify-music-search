@@ -59,6 +59,12 @@ export default function DreamMode({
     alt="Racket the raccoon resting beneath the stars"
     className="dream-racket-image"
   />
+
+  <div className="racket-snores" aria-hidden="true">
+    <span className="racket-snore snore-one">z</span>
+    <span className="racket-snore snore-two">Z</span>
+    <span className="racket-snore snore-three">Z</span>
+  </div>
 </div>
         <h2>Welcome to Dream Mode</h2>
 
