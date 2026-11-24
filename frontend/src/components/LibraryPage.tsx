@@ -20,35 +20,48 @@ export default function LibraryPage({
       </div>
 
       <div className="library-sections">
-        <div className="library-section-card">
-         <Heart className="library-section-icon" size={32} />
+
+        <button
+          type="button"
+          className="library-section-card"
+          onClick={() => onNavigate('liked-songs')}
+        >
+          <Heart className="library-section-icon" size={32} />
           <h3>Liked Songs</h3>
           <p>All the songs you've saved on Spotify.</p>
-        </div>
+        </button>
 
-        <div className="library-section-card">
+        <button
+          type="button"
+          className="library-section-card"
+          onClick={() => onNavigate('saved-albums')}
+        >
           <Disc3 className="library-section-icon" size={32} />
           <h3>Saved Albums</h3>
           <p>Albums you love and want to revisit.</p>
-        </div>
+        </button>
 
-        <div className="library-section-card">
+        <button
+          type="button"
+          className="library-section-card"
+          onClick={() => onNavigate('followed-artists')}
+        >
           <MicVocal className="library-section-icon" size={32} />
           <h3>Followed Artists</h3>
           <p>Keep up with your favorite artists.</p>
-        </div>
+        </button>
 
-       
-<button
-  type="button"
-  className="library-section-card"
-  onClick={() => onNavigate('playlists')}
->
-  <ListMusic className="library-section-icon" size={32} />
-  <h3>Your Playlists</h3>
-  <p>Music collections for every mood.</p>
-</button>
- </div>
+        <button
+          type="button"
+          className="library-section-card"
+          onClick={() => onNavigate('playlists')}
+        >
+          <ListMusic className="library-section-icon" size={32} />
+          <h3>Your Playlists</h3>
+          <p>Music collections for every mood.</p>
+        </button>
+
+      </div>
 
       <LikedSongs />
       <SavedAlbums />

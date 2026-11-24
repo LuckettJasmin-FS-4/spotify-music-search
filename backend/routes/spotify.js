@@ -409,4 +409,86 @@ router.put("/save-track/:trackId", async (req, res) => {
     });
   }
 });
+// Retrieve individual Spotify album or artist details.
+async function getSpotifyDetails(req, res, resource) {
+  const sessionToken = req.cookies?.racket_session;
+  const { id } = req.params;
+
+  if (!sessionToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to Racket first",
+    });
+  }
+
+  if (!/^[A-Za-z0-9]{22}$/.test(id)) {
+    return res.status(400).json({
+      success: false,
+      message: "Invalid Spotify ID",
+    });
+  }
+
+  try {
+    const session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+
+    const spotifyToken = await getValidSpotifyToken(
+      session.userId
+    );
+
+    const response = await axios.get(
+      `https://api.spotify.com/v1/${resource}/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${spotifyToken}`,
+        },
+        timeout: 10000,
+      }
+    );
+
+    return res.json({
+      success: true,
+      data: response.data,
+    });
+
+  } catch (error) {
+    console.error("Spotify details failed:", {
+      resource,
+      status: error.response?.status,
+      message: error.message,
+    });
+
+    if (
+      error.name === "TokenExpiredError" ||
+      error.name === "JsonWebTokenError"
+    ) {
+      return res.status(401).json({
+        success: false,
+        message: "Your Racket session has expired",
+      });
+    }
+
+    const status = error.response?.status;
+
+    return res.status(
+      [403, 404, 429].includes(status) ? status : 502
+    ).json({
+      success: false,
+      message: "Unable to retrieve Spotify details",
+    });
+  }
+}
+
+// Get an individual album.
+router.get("/albums/:id", (req, res) => {
+  return getSpotifyDetails(req, res, "albums");
+});
+
+// Get an individual artist.
+router.get("/artists/:id", (req, res) => {
+  return getSpotifyDetails(req, res, "artists");
+});
 module.exports = router;

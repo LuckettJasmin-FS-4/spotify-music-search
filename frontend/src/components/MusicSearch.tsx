@@ -1,5 +1,6 @@
-
 import { useState, type FormEvent } from 'react'
+import MusicDetails from './MusicDetails'
+import { Disc3, MicVocal, Music2 } from 'lucide-react'
 
 type SpotifyImage = {
   url: string
@@ -53,7 +54,14 @@ function MusicSearch({
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
 
-  const handleSearch = async (event: FormEvent<HTMLFormElement>) => {
+  const [selectedMusic, setSelectedMusic] = useState<{
+    id: string
+    type: 'album' | 'artist'
+  } | null>(null)
+
+  const handleSearch = async (
+    event: FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault()
 
     if (!query.trim()) return
@@ -94,9 +102,21 @@ function MusicSearch({
     }
   }
 
+  if (selectedMusic) {
+    return (
+      <MusicDetails
+        id={selectedMusic.id}
+        type={selectedMusic.type}
+        onBack={() => setSelectedMusic(null)}
+      />
+    )
+  }
+
   return (
     <div className="music-search">
-      <h2>Find your next favorite song, {displayName}.</h2>
+      <h2>
+        Find your next favorite song, {displayName}.
+      </h2>
 
       <p className="description">
         Search for songs, artists, and albums. Your next discovery
@@ -126,19 +146,26 @@ function MusicSearch({
 
       {results && (
         <div className="search-results">
+
           <h3>Songs</h3>
 
           <div className="result-grid">
             {results.tracks?.map((track) => (
-              <article className="result-card" key={track.id}>
-                {track.album.images?.[0] && (
-                  <img
-                    src={track.album.images[0].url}
-                    alt={`${track.album.name} album cover`}
-                    className="result-image"
-                  />
-                )}
-
+              <article
+                className="result-card"
+                key={track.id}
+              >
+               {track.album.images?.[0]?.url ? (
+  <img
+    src={track.album.images[0].url}
+    alt={`${track.album.name} album cover`}
+    className="result-image"
+  />
+) : (
+  <div className="result-image-placeholder">
+    <Music2 size={48} aria-hidden="true" />
+  </div>
+)}
                 <h4>{track.name}</h4>
 
                 <p>
@@ -164,17 +191,31 @@ function MusicSearch({
 
           <div className="result-grid">
             {results.artists?.map((artist) => (
-              <article className="result-card" key={artist.id}>
-                {artist.images?.[0] && (
-                  <img
-                    src={artist.images[0].url}
-                    alt={`${artist.name} artist`}
-                    className="result-image"
-                  />
-                )}
+              <button
+                type="button"
+                className="result-card clickable-result-card"
+                key={artist.id}
+                onClick={() =>
+                  setSelectedMusic({
+                    id: artist.id,
+                    type: 'artist',
+                  })
+                }
+              >
+               {artist.images?.[0]?.url ? (
+  <img
+    src={artist.images[0].url}
+    alt={`${artist.name} artist`}
+    className="result-image"
+  />
+) : (
+  <div className="result-image-placeholder">
+    <MicVocal size={48} aria-hidden="true" />
+  </div>
+)}
 
                 <h4>{artist.name}</h4>
-              </article>
+              </button>
             ))}
           </div>
 
@@ -182,15 +223,28 @@ function MusicSearch({
 
           <div className="result-grid">
             {results.albums?.map((album) => (
-              <article className="result-card" key={album.id}>
-                {album.images?.[0] && (
-                  <img
-                    src={album.images[0].url}
-                    alt={`${album.name} album cover`}
-                    className="result-image"
-                  />
-                )}
-
+              <button
+                type="button"
+                className="result-card clickable-result-card"
+                key={album.id}
+                onClick={() =>
+                  setSelectedMusic({
+                    id: album.id,
+                    type: 'album',
+                  })
+                }
+              >
+               {album.images?.[0]?.url ? (
+  <img
+    src={album.images[0].url}
+    alt={`${album.name} album cover`}
+    className="result-image"
+  />
+) : (
+  <div className="result-image-placeholder">
+    <Disc3 size={48} aria-hidden="true" />
+  </div>
+)}
                 <h4>{album.name}</h4>
 
                 <p>
@@ -198,9 +252,10 @@ function MusicSearch({
                     .map((artist) => artist.name)
                     .join(', ')}
                 </p>
-              </article>
+              </button>
             ))}
           </div>
+
         </div>
       )}
     </div>

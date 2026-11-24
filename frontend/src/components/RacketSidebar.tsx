@@ -8,6 +8,9 @@ export type RacketPage =
   | 'library'
   | 'playlists'
   | 'dream'
+  | 'liked-songs'
+  | 'saved-albums'
+  | 'followed-artists'
 
 type RacketSidebarProps = {
   activePage: RacketPage

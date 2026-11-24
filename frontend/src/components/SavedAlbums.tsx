@@ -1,5 +1,6 @@
-
 import { useEffect, useState } from 'react'
+import { Disc3 } from 'lucide-react'
+import MusicDetails from './MusicDetails'
 import './SavedAlbums.css'
 
 type SpotifyAlbum = {
@@ -21,6 +22,7 @@ export default function SavedAlbums() {
   const [albums, setAlbums] = useState<SavedAlbum[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [selectedAlbum, setSelectedAlbum] = useState<string | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -56,10 +58,20 @@ export default function SavedAlbums() {
       }
     }
 
-    loadSavedAlbums()
+    void loadSavedAlbums()
 
     return () => controller.abort()
   }, [])
+
+  if (selectedAlbum) {
+    return (
+      <MusicDetails
+        id={selectedAlbum}
+        type="album"
+        onBack={() => setSelectedAlbum(null)}
+      />
+    )
+  }
 
   return (
     <section className="saved-albums">
@@ -76,27 +88,31 @@ export default function SavedAlbums() {
 
       <div className="saved-albums-grid">
         {albums.map(({ album }) => (
-          <a
+          <button
+            type="button"
             key={album.id}
             className="saved-album-card"
-            href={album.external_urls.spotify}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => setSelectedAlbum(album.id)}
           >
-            {album.images?.[0]?.url && (
+            {album.images?.[0]?.url ? (
               <img
                 src={album.images[0].url}
                 alt={`${album.name} album cover`}
               />
+            ) : (
+              <div className="saved-album-placeholder">
+                <Disc3 size={48} />
+              </div>
             )}
 
             <h4>{album.name}</h4>
+
             <p>
               {album.artists
                 .map((artist) => artist.name)
                 .join(', ')}
             </p>
-          </a>
+          </button>
         ))}
       </div>
     </section>

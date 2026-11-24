@@ -78,3 +78,43 @@
     transition: none;
   }
 }
+.saved-album-card {
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  width: 100%;
+  transition: transform 0.25s ease,
+              box-shadow 0.25s ease;
+}
+
+.saved-album-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 24px rgba(96, 165, 250, 0.2);
+}
+
+.saved-album-card:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 4px;
+}
+
+.saved-album-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e3a5f, #172554);
+  color: #93c5fd;
+  border-radius: 12px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .saved-album-card {
+    transition: none;
+  }
+
+  .saved-album-card:hover {
+    transform: none;
+  }
+}

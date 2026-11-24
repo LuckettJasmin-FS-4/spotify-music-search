@@ -1,5 +1,6 @@
-
 import { useEffect, useState } from 'react'
+import { MicVocal } from 'lucide-react'
+import MusicDetails from './MusicDetails'
 import './FollowedArtists.css'
 
 type SpotifyArtist = {
@@ -15,6 +16,7 @@ export default function FollowedArtists() {
   const [artists, setArtists] = useState<SpotifyArtist[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
+  const [selectedArtist, setSelectedArtist] = useState<string | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
@@ -50,14 +52,25 @@ export default function FollowedArtists() {
       }
     }
 
-    loadFollowedArtists()
+    void loadFollowedArtists()
 
     return () => controller.abort()
   }, [])
 
+  if (selectedArtist) {
+    return (
+      <MusicDetails
+        id={selectedArtist}
+        type="artist"
+        onBack={() => setSelectedArtist(null)}
+      />
+    )
+  }
+
   return (
     <section className="followed-artists">
       <h3>Followed Artists</h3>
+
       <p>Keep up with the artists you follow on Spotify.</p>
 
       {loading && <p>Loading your followed artists...</p>}
@@ -70,23 +83,26 @@ export default function FollowedArtists() {
 
       <div className="followed-artists-grid">
         {artists.map((artist) => (
-          <a
+          <button
+            type="button"
             key={artist.id}
             className="followed-artist-card"
-            href={artist.external_urls.spotify}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => setSelectedArtist(artist.id)}
           >
-            {artist.images?.[0]?.url && (
+            {artist.images?.[0]?.url ? (
               <img
                 src={artist.images[0].url}
                 alt={`${artist.name} profile`}
               />
+            ) : (
+              <div className="followed-artist-placeholder">
+                <MicVocal size={48} />
+              </div>
             )}
 
             <h4>{artist.name}</h4>
             <p>Artist</p>
-          </a>
+          </button>
         ))}
       </div>
     </section>

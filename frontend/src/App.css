@@ -621,3 +621,54 @@
 .screensaver-launch-button:hover {
   background: #358fce;
 }
+/* Interactive music search cards */
+
+.clickable-result-card {
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+  text-align: left;
+  transition: transform 0.25s ease,
+              box-shadow 0.25s ease,
+              border-color 0.25s ease;
+}
+
+.clickable-result-card:hover {
+  transform: translateY(-5px);
+  border-color: #8ab4f8;
+  box-shadow: 0 8px 24px rgba(96, 165, 250, 0.2);
+}
+
+.clickable-result-card:active {
+  transform: scale(0.98);
+}
+
+.clickable-result-card:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .clickable-result-card {
+    transition: none;
+  }
+
+  .clickable-result-card:hover,
+  .clickable-result-card:active {
+    transform: none;
+  }
+}
+.result-image-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(
+    135deg,
+    #1e3a5f,
+    #172554
+  );
+  color: #93c5fd;
+  border-radius: 12px;
+}
