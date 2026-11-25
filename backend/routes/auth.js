@@ -23,7 +23,19 @@ router.get("/login", (req, res) => {
   const params = new URLSearchParams({
     response_type: "code",
     client_id: clientId,
-scope: "user-read-private user-read-email playlist-read-private playlist-read-collaborative user-library-read user-library-modify user-follow-read",
+scope: [
+  "user-read-private",
+  "user-read-email",
+  "playlist-read-private",
+  "playlist-read-collaborative",
+  "user-library-read",
+  "user-library-modify",
+  "user-follow-read",
+  "streaming",
+  "user-read-playback-state",
+  "user-modify-playback-state",
+  "user-read-currently-playing",
+].join(" "),
     redirect_uri: process.env.SPOTIFY_REDIRECT_URI,
     state,
   });
@@ -252,5 +264,54 @@ router.post("/logout", (req, res) => {
     success: true,
     message: "Successfully logged out of Racket",
   });
+});
+// Provide an authenticated Spotify access token for playback.
+router.get("/playback-token", async (req, res) => {
+  res.set("Cache-Control", "no-store");
+
+  const sessionToken = req.cookies?.racket_session;
+
+  if (!sessionToken) {
+    return res.status(401).json({
+      success: false,
+      message: "Please log in to Racket first",
+    });
+  }
+
+  let session;
+
+  try {
+    session = jwt.verify(
+      sessionToken,
+      process.env.JWT_SECRET,
+      { algorithms: ["HS256"] }
+    );
+  } catch {
+    return res.status(401).json({
+      success: false,
+      message: "Session invalid or expired",
+    });
+  }
+
+  try {
+    const accessToken = await getValidSpotifyToken(
+      session.userId
+    );
+
+    return res.json({
+      success: true,
+      accessToken,
+    });
+  } catch (error) {
+    console.error(
+      "Playback authorization failed:",
+      error.response?.status || "Token unavailable"
+    );
+
+    return res.status(503).json({
+      success: false,
+      message: "Unable to authorize Spotify playback",
+    });
+  }
 });
 module.exports = router;

@@ -17,12 +17,16 @@ type MusicSetupProps = {
   displayName: string
   onSessionExpired: () => void
   selectedMood?: string
+  onPlayTrack?: (trackId: string) => Promise<void>
+  isPlayerReady?: boolean
 }
 
 function MusicSetup({
   displayName,
   onSessionExpired,
   selectedMood,
+  onPlayTrack,
+  isPlayerReady,
 }: MusicSetupProps) {
 
 const [selectedMoods, setSelectedMoods] = useState<string[]>([])
@@ -55,6 +59,8 @@ const [selectedMoods, setSelectedMoods] = useState<string[]>([])
       displayName={displayName}
       onSessionExpired={onSessionExpired}
       selectedMood={selectedMood}
+      onPlayTrack={onPlayTrack}
+      isPlayerReady={isPlayerReady}
     />
   )
 }

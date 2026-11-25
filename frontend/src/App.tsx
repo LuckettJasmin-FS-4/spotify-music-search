@@ -2,6 +2,8 @@
 import { useEffect, useState } from 'react'
 import MusicSetup from './components/MusicSetup'
 import RacketPages from './components/RacketPages'
+import RacketPlayer from './components/RacketPlayer'
+import useSpotifyPlayer from './hooks/useSpotifyPlayer'
 
 import RacketSidebar, {
   type RacketPage,
@@ -16,6 +18,7 @@ type RacketUser = {
 function App() {
  
   const [user, setUser] = useState<RacketUser | null>(null)
+  const player = useSpotifyPlayer(Boolean(user))
   const [loading, setLoading] = useState(true)
   const [activePage, setActivePage] = useState<RacketPage>('home')
   const [selectedMood, setSelectedMood] = useState<string | undefined>(
@@ -171,6 +174,8 @@ const handleLogout = async () => {
   displayName={user.displayName || 'music lover'}
   onSessionExpired={handleSessionExpired}
   selectedMood={selectedMood}
+  onPlayTrack={player.playTrack}
+  isPlayerReady={player.isReady}
 />
   ) : (
  <RacketPages
@@ -202,8 +207,9 @@ const handleLogout = async () => {
             </p>
           </>
         )}
-      </section>
-    
+           </section>
+
+      {user && <RacketPlayer player={player} />}
 
     </main>
   )

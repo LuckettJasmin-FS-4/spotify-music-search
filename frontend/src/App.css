@@ -672,3 +672,47 @@
   color: #93c5fd;
   border-radius: 12px;
 }
+/* Reserve space for the persistent music player */
+
+.racket-app-layout {
+  padding-bottom: 150px;
+}
+
+@media (max-width: 768px) {
+  .racket-app-layout {
+    padding-bottom: 230px;
+  }
+}
+.racket-track-play {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 11px 16px;
+  margin: 12px 0;
+  border: none;
+  border-radius: 10px;
+  background: #93c5fd;
+  color: #0b192e;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease,
+              box-shadow 0.2s ease;
+}
+
+.racket-track-play:hover:not(:disabled) {
+  background: #bfdbfe;
+  box-shadow: 0 0 18px rgba(147, 197, 253, 0.3);
+}
+
+.racket-track-play:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.racket-track-play:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 3px;
+}

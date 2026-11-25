@@ -1,0 +1,232 @@
+.racket-player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+
+  display: grid;
+  grid-template-columns: 1fr 1.5fr 1fr;
+  align-items: center;
+  gap: 24px;
+
+  padding: 16px 28px;
+  background: rgba(10, 23, 42, 0.96);
+  backdrop-filter: blur(20px);
+  border-top: 1px solid rgba(147, 197, 253, 0.2);
+  box-shadow: 0 -8px 40px rgba(0, 0, 0, 0.25);
+  color: #e2e8f0;
+}
+
+/* Current track information */
+
+.player-track-info {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+
+.player-artwork,
+.player-artwork-placeholder {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.player-artwork-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #1e3a5f, #172554);
+  color: #93c5fd;
+}
+
+.player-track-text {
+  min-width: 0;
+}
+
+.player-track-text h4 {
+  margin: 0 0 5px;
+  font-size: 14px;
+  color: #f1f5f9;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-track-text p {
+  margin: 0 0 6px;
+  font-size: 12px;
+  color: #94a3b8;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.player-status {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: #94a3b8;
+}
+
+.player-status.connected {
+  color: #93c5fd;
+}
+
+/* Playback controls */
+
+.player-center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.player-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 22px;
+}
+
+.player-controls button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  padding: 8px;
+  color: #cbd5e1;
+  cursor: pointer;
+  transition: transform 0.2s ease,
+              color 0.2s ease;
+}
+
+.player-controls button:hover:not(:disabled) {
+  color: #ffffff;
+  transform: scale(1.1);
+}
+
+.player-controls .player-play-button {
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: #93c5fd;
+  color: #0b192e;
+  box-shadow: 0 0 20px rgba(147, 197, 253, 0.25);
+}
+
+.player-controls .player-play-button:hover:not(:disabled) {
+  background: #bfdbfe;
+  color: #0b192e;
+  box-shadow: 0 0 25px rgba(147, 197, 253, 0.45);
+}
+
+.player-controls button:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Progress bar */
+
+.player-progress {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  max-width: 480px;
+}
+
+.player-progress span {
+  font-size: 11px;
+  color: #94a3b8;
+  min-width: 32px;
+  text-align: center;
+}
+
+.racket-player input[type="range"] {
+  width: 100%;
+  min-width: 0;
+  height: 5px;
+  accent-color: #93c5fd;
+  cursor: pointer;
+}
+
+.racket-player input[type="range"]:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+/* Volume control */
+
+.player-volume {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 12px;
+  color: #93c5fd;
+}
+
+.player-volume input {
+  max-width: 120px;
+}
+
+/* Error messages */
+
+.player-error {
+  grid-column: 1 / -1;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  color: #fca5a5;
+  font-size: 12px;
+  text-align: center;
+}
+
+/* Keyboard accessibility */
+
+.racket-player button:focus-visible,
+.racket-player input:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 4px;
+}
+
+/* Responsive layout */
+
+@media (max-width: 768px) {
+  .racket-player {
+    grid-template-columns: 1fr;
+    gap: 12px;
+    padding: 12px 16px;
+  }
+
+  .player-artwork,
+  .player-artwork-placeholder {
+    width: 48px;
+    height: 48px;
+  }
+
+  .player-volume {
+    display: none;
+  }
+
+  .player-progress {
+    max-width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .player-controls button {
+    transition: none;
+  }
+
+  .player-controls button:hover:not(:disabled) {
+    transform: none;
+  }
+}

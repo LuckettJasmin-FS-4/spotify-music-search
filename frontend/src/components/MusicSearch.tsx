@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react'
 import MusicDetails from './MusicDetails'
-import { Disc3, MicVocal, Music2 } from 'lucide-react'
+import { Disc3, MicVocal, Music2, Play } from 'lucide-react'
 
 type SpotifyImage = {
   url: string
@@ -39,12 +39,15 @@ type MusicSearchProps = {
   displayName: string
   onSessionExpired: () => void
   selectedMood?: string
+  onPlayTrack?: (trackId: string) => Promise<void>
+  isPlayerReady?: boolean
 }
-
 function MusicSearch({
   displayName,
   onSessionExpired,
   selectedMood,
+  onPlayTrack,
+  isPlayerReady,
 }: MusicSearchProps) {
   const [query, setQuery] = useState(() =>
     selectedMood ? `${selectedMood} music` : ''
@@ -173,7 +176,16 @@ function MusicSearch({
                     .map((artist) => artist.name)
                     .join(', ')}
                 </p>
-
+<button
+  type="button"
+  className="racket-track-play"
+  disabled={!isPlayerReady || !onPlayTrack}
+  aria-label={`Play ${track.name} in Racket`}
+  onClick={() => void onPlayTrack?.(track.id)}
+>
+  <Play size={18} />
+  Play in Racket
+</button>
                 {track.external_urls?.spotify && (
                   <a
                     href={track.external_urls.spotify}
