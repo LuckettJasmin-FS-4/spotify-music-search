@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react'
+import { Music2 } from 'lucide-react'
+import PlaylistDetails from './PlaylistDetails'
 import './PlaylistsPage.css'
 
 type SpotifyPlaylist = {
@@ -16,6 +18,9 @@ export default function PlaylistsPage() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  const [selectedPlaylist, setSelectedPlaylist] =
+    useState<SpotifyPlaylist | null>(null)
+
   useEffect(() => {
     const controller = new AbortController()
 
@@ -30,7 +35,9 @@ export default function PlaylistsPage() {
         )
 
         if (!response.ok) {
-          throw new Error('Unable to load your Spotify playlists.')
+          throw new Error(
+            'Unable to load your Spotify playlists.'
+          )
         }
 
         const data = await response.json()
@@ -39,7 +46,9 @@ export default function PlaylistsPage() {
         if (controller.signal.aborted) return
 
         setError(
-          err instanceof Error ? err.message : 'Something went wrong.'
+          err instanceof Error
+            ? err.message
+            : 'Something went wrong.'
         )
       } finally {
         if (!controller.signal.aborted) {
@@ -48,14 +57,26 @@ export default function PlaylistsPage() {
       }
     }
 
-    loadPlaylists()
+    void loadPlaylists()
 
     return () => controller.abort()
   }, [])
 
+  if (selectedPlaylist) {
+    return (
+      <div className="racket-page">
+        <PlaylistDetails
+          playlist={selectedPlaylist}
+          onBack={() => setSelectedPlaylist(null)}
+        />
+      </div>
+    )
+  }
+
   return (
     <div className="racket-page">
       <h2>Your Playlists</h2>
+
       <p>Your favorite soundtracks, all in one place.</p>
 
       {loading && <p>Loading your playlists...</p>}
@@ -67,24 +88,31 @@ export default function PlaylistsPage() {
       )}
 
       <div className="playlist-grid">
-        {playlists.map((playlist) => (
-          <a
+        {playlists.map(playlist => (
+          <button
             key={playlist.id}
+            type="button"
             className="playlist-card"
-            href={playlist.external_urls.spotify}
-            target="_blank"
-            rel="noopener noreferrer"
+            onClick={() => setSelectedPlaylist(playlist)}
+            aria-label={`View ${playlist.name} playlist`}
           >
-            {playlist.images?.[0]?.url && (
+            {playlist.images?.[0]?.url ? (
               <img
                 src={playlist.images[0].url}
                 alt={`${playlist.name} cover`}
               />
+            ) : (
+              <div className="playlist-card-placeholder">
+                <Music2 size={48} />
+              </div>
             )}
 
             <h3>{playlist.name}</h3>
-            <p>{playlist.description || 'Your Spotify playlist'}</p>
-          </a>
+
+            <p>
+              {playlist.description || 'Your Spotify playlist'}
+            </p>
+          </button>
         ))}
       </div>
     </div>

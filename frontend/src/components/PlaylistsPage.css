@@ -63,3 +63,45 @@
     transform: none;
   }
 }
+button.playlist-card {
+  width: 100%;
+  font: inherit;
+  text-align: left;
+  color: inherit;
+  cursor: pointer;
+  transition: transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+button.playlist-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(147, 197, 253, 0.5);
+  box-shadow: 0 8px 24px rgba(96, 165, 250, 0.12);
+}
+
+button.playlist-card:focus-visible {
+  outline: 2px solid #93c5fd;
+  outline-offset: 4px;
+}
+
+.playlist-card-placeholder {
+  width: 100%;
+  aspect-ratio: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #203d59, #10243b);
+  color: #93c5fd;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  button.playlist-card {
+    transition: none;
+  }
+
+  button.playlist-card:hover {
+    transform: none;
+  }
+}

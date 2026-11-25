@@ -410,7 +410,7 @@ router.put("/save-track/:trackId", async (req, res) => {
   }
 });
 // Retrieve individual Spotify album or artist details.
-async function getSpotifyDetails(req, res, resource) {
+async function getSpotifyDetails(req, res, resource, subresource = "") {
   const sessionToken = req.cookies?.racket_session;
   const { id } = req.params;
 
@@ -440,7 +440,7 @@ async function getSpotifyDetails(req, res, resource) {
     );
 
     const response = await axios.get(
-      `https://api.spotify.com/v1/${resource}/${id}`,
+      `https://api.spotify.com/v1/${resource}/${id}${subresource ? `/${subresource}` : ""}`,
       {
         headers: {
           Authorization: `Bearer ${spotifyToken}`,
@@ -496,5 +496,8 @@ router.get("/artists/:id", (req, res) => {
 router.get("/playlists/:id", (req, res) => {
   return getSpotifyDetails(req, res, "playlists");
 });
-
+// Retrieve tracks from an individual Spotify playlist.
+router.get("/playlists/:id/items", (req, res) => {
+  return getSpotifyDetails(req, res, "playlists", "items");
+});
 module.exports = router;
