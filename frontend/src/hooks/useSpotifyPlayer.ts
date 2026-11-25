@@ -165,7 +165,10 @@ export default function useSpotifyPlayer(enabled: boolean) {
     return () => window.clearInterval(timer)
   }, [isReady, isPaused, duration])
 
-  const playTrack = async (trackId: string) => {
+  const playTrack = async (
+  trackId: string,
+  trackIds: string[] = [trackId]
+) => {
     if (!deviceId || !playerRef.current) {
       setError('Spotify player is not ready yet.')
       return
@@ -189,6 +192,71 @@ export default function useSpotifyPlayer(enabled: boolean) {
 
       const data = await tokenResponse.json()
 
+if (!data.accessToken) {
+  throw new Error('Spotify access token unavailable.')
+}
+
+const headers = {
+  Authorization: `Bearer ${data.accessToken}`,
+  'Content-Type': 'application/json',
+}
+
+// Check whether Racket is the active playback device.
+const devicesResponse = await fetch(
+  'https://api.spotify.com/v1/me/player/devices',
+  { headers }
+)
+
+if (!devicesResponse.ok) {
+  throw new Error('Unable to check Spotify devices.')
+}
+
+const devicesData = await devicesResponse.json()
+
+const racketDevice = devicesData.devices?.find(
+  (device: { id: string; is_active: boolean }) =>
+    device.id === deviceId
+)
+
+if (!racketDevice) {
+  throw new Error(
+    'Racket playback device is unavailable. Please refresh the page.'
+  )
+}
+
+// Transfer playback only when Racket is not active.
+if (!racketDevice.is_active) {
+  const transferResponse = await fetch(
+    'https://api.spotify.com/v1/me/player',
+    {
+      method: 'PUT',
+      headers,
+      body: JSON.stringify({
+        device_ids: [deviceId],
+        play: false,
+      }),
+    }
+  )
+
+  if (!transferResponse.ok) {
+    throw new Error(
+      `Unable to activate Racket (${transferResponse.status}).`
+    )
+  }
+
+  // Allow Spotify a moment to complete the transfer.
+  await new Promise(resolve => setTimeout(resolve, 750))
+}
+
+const queue = [...new Set(trackIds.filter(Boolean))]
+if (!queue.includes(trackId)) {
+  queue.unshift(trackId)
+}
+
+const uris = queue.map(
+  (id) => `spotify:track:${id}`
+)
+
       const response = await fetch(
         `https://api.spotify.com/v1/me/player/play?device_id=${encodeURIComponent(deviceId)}`,
         {
@@ -200,8 +268,12 @@ export default function useSpotifyPlayer(enabled: boolean) {
           },
 
           body: JSON.stringify({
-            uris: [`spotify:track:${trackId}`],
-          }),
+  uris,
+  offset: {
+    position: queue.indexOf(trackId),
+  },
+  position_ms: 0,
+}),
         }
       )
 
@@ -223,31 +295,39 @@ export default function useSpotifyPlayer(enabled: boolean) {
     await playerRef.current?.togglePlay()
   }
 
-  const nextTrack = async () => {
+ const nextTrack = async () => {
+  try {
+    setError('')
     await playerRef.current?.nextTrack()
+  } catch {
+    setError('Unable to skip to the next track.')
   }
+}
 
-  const previousTrack = async () => {
+const previousTrack = async () => {
+  try {
+    setError('')
     await playerRef.current?.previousTrack()
+  } catch {
+    setError('Unable to return to the previous track.')
   }
+}
+const changeVolume = async (value: number) => {
+  const safeVolume = Math.max(0, Math.min(1, value))
 
-  const changeVolume = async (value: number) => {
-    const safeVolume = Math.max(0, Math.min(1, value))
+  await playerRef.current?.setVolume(safeVolume)
+  setVolume(safeVolume)
+}
 
-    await playerRef.current?.setVolume(safeVolume)
-    setVolume(safeVolume)
-  }
+const seek = async (milliseconds: number) => {
+  const safePosition = Math.max(
+    0,
+    Math.min(duration, milliseconds)
+  )
 
-  const seek = async (milliseconds: number) => {
-    const safePosition = Math.max(
-      0,
-      Math.min(duration, milliseconds)
-    )
-
-    await playerRef.current?.seek(safePosition)
-    setPosition(safePosition)
-  }
-
+  await playerRef.current?.seek(safePosition)
+  setPosition(safePosition)
+}
   return {
     deviceId,
     isReady,

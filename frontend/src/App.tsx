@@ -4,6 +4,7 @@ import MusicSetup from './components/MusicSetup'
 import RacketPages from './components/RacketPages'
 import RacketPlayer from './components/RacketPlayer'
 import useSpotifyPlayer from './hooks/useSpotifyPlayer'
+import { PlaybackContext } from './context/PlaybackContext'
 
 import RacketSidebar, {
   type RacketPage,
@@ -133,8 +134,9 @@ const handleLogout = async () => {
   }
 
  return (
-  <main className={`login-page ${user ? 'racket-app-layout' : ''}`}>
-   
+  <PlaybackContext.Provider value={player}>
+    <main className={`login-page ${user ? 'racket-app-layout' : ''}`}>
+ 
 
     <div className="ambient-glow" />
 
@@ -211,7 +213,8 @@ const handleLogout = async () => {
 
       {user && <RacketPlayer player={player} />}
 
-    </main>
+       </main>
+  </PlaybackContext.Provider>
   )
 }
 

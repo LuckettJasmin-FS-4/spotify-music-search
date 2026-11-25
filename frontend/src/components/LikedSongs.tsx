@@ -1,5 +1,6 @@
-
 import { useEffect, useState } from 'react'
+import { Play, Music2 } from 'lucide-react'
+import { usePlayback } from '../context/PlaybackContext'
 import './LikedSongs.css'
 
 type SpotifyTrack = {
@@ -25,6 +26,17 @@ export default function LikedSongs() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  const {
+    playTrack,
+    isReady,
+    currentTrack,
+    isPaused,
+  } = usePlayback()
+
+  const trackIds = songs
+    .map(({ track }) => track?.id)
+    .filter(Boolean)
+
   useEffect(() => {
     const controller = new AbortController()
 
@@ -43,7 +55,12 @@ export default function LikedSongs() {
         }
 
         const data = await response.json()
-        setSongs(data.tracks || [])
+
+        setSongs(
+          (data.tracks || []).filter(
+            (item: LikedSong) => item.track?.id
+          )
+        )
       } catch (err) {
         if (controller.signal.aborted) return
 
@@ -67,7 +84,22 @@ export default function LikedSongs() {
   return (
     <div className="liked-songs">
       <h3>Liked Songs</h3>
+
       <p>Music you've saved to your Spotify library.</p>
+
+      {trackIds.length > 0 && (
+        <button
+          type="button"
+          className="racket-play-all"
+          disabled={!isReady}
+          onClick={() =>
+            void playTrack(trackIds[0], trackIds)
+          }
+        >
+          <Play size={20} />
+          Play All
+        </button>
+      )}
 
       {loading && <p>Loading your liked songs...</p>}
 
@@ -78,27 +110,64 @@ export default function LikedSongs() {
       )}
 
       <div className="liked-songs-grid">
-        {songs.map(({ track }) => (
-          <a
-            key={track.id}
-            className="liked-song-card"
-            href={track.external_urls.spotify}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {track.album.images?.[0]?.url && (
-              <img
-                src={track.album.images[0].url}
-                alt={`${track.album.name} album cover`}
-              />
-            )}
+        {songs.map(({ track }) => {
+          const isPlaying =
+            currentTrack?.id === track.id && !isPaused
 
-            <div>
-              <h4>{track.name}</h4>
-              <p>{track.artists.map(artist => artist.name).join(', ')}</p>
-            </div>
-          </a>
-        ))}
+          return (
+            <article
+              key={track.id}
+              className={`liked-song-card ${
+                isPlaying ? 'liked-song-playing' : ''
+              }`}
+            >
+              {track.album.images?.[0]?.url ? (
+                <img
+                  src={track.album.images[0].url}
+                  alt={`${track.album.name} album cover`}
+                />
+              ) : (
+                <div className="liked-song-placeholder">
+                  <Music2 size={36} />
+                </div>
+              )}
+
+              <div>
+                <h4>{track.name}</h4>
+
+                <p>
+                  {track.artists
+                    .map(artist => artist.name)
+                    .join(', ')}
+                </p>
+
+                <button
+                  type="button"
+                  className="racket-track-play"
+                  disabled={!isReady}
+                  aria-label={`Play ${track.name} in Racket`}
+                  onClick={() =>
+                    void playTrack(track.id, trackIds)
+                  }
+                >
+                  <Play size={16} />
+                  {isPlaying ? 'Now Playing' : 'Play in Racket'}
+                </button>
+
+                {track.external_urls?.spotify && (
+                  <a
+                    className="liked-song-spotify-link"
+                    href={track.external_urls.spotify}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
+                    Open in Spotify
+                  </a>
+                )}
+              </div>
+            </article>
+          )
+        })}
       </div>
     </div>
   )

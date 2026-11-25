@@ -716,3 +716,33 @@
   outline: 2px solid #ffffff;
   outline-offset: 3px;
 }
+.racket-play-all {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 28px;
+  margin: 12px 0 24px;
+  border: none;
+  border-radius: 30px;
+  background: #93c5fd;
+  color: #0b192e;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.racket-play-all:hover:not(:disabled) {
+  background: #bfdbfe;
+}
+
+.racket-play-all:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.racket-play-all:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}

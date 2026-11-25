@@ -1,5 +1,14 @@
 import { useEffect, useState } from 'react'
-import { ArrowLeft, Disc3, MicVocal, ExternalLink } from 'lucide-react'
+import {
+  ArrowLeft,
+  Disc3,
+  MicVocal,
+  ExternalLink,
+  Play,
+  AudioLines,
+} from 'lucide-react'
+
+import { usePlayback } from '../context/PlaybackContext'
 import './MusicDetails.css'
 
 type MusicDetailsProps = {
@@ -49,6 +58,16 @@ export default function MusicDetails({
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
+  const {
+  playTrack,
+  isReady,
+  currentTrack,
+  isPaused,
+} = usePlayback()
+
+const trackIds = (details?.tracks?.items || [])
+  .map(track => track.id)
+  .filter(Boolean)
   useEffect(() => {
     const controller = new AbortController()
 
@@ -173,7 +192,19 @@ export default function MusicDetails({
                   ))}
                 </div>
               )}
-
+{type === 'album' && trackIds.length > 0 && (
+  <button
+    type="button"
+    className="racket-play-all"
+    disabled={!isReady}
+    onClick={() =>
+      void playTrack(trackIds[0], trackIds)
+    }
+  >
+    <Play size={20} />
+    Play Album
+  </button>
+)}
               {details.external_urls?.spotify && (
                 <a
                   className="music-details-spotify"
@@ -194,40 +225,75 @@ export default function MusicDetails({
 
               <h3>Track Listing</h3>
 
-              {details.tracks.items.map(track => (
-                <div
-                  className="music-details-track"
-                  key={track.id}
-                >
-                  <span className="track-number">
-                    {track.track_number}
-                  </span>
+              {details.tracks.items.map(track => {
+  const isPlaying =
+    currentTrack?.id === track.id && !isPaused
 
-                  <div className="track-information">
-                    <h4>{track.name}</h4>
-                    <p>
-                      {track.artists
-                        .map(artist => artist.name)
-                        .join(', ')}
-                    </p>
-                  </div>
+  return (
+    <div
+      className={`music-details-track ${
+        isPlaying ? 'album-track-playing' : ''
+      }`}
+      key={track.id}
+    >
+      <button
+        type="button"
+        className="album-track-play"
+        disabled={!isReady || !track.id}
+        aria-label={`Play ${track.name} in Racket`}
+        onClick={() =>
+          void playTrack(track.id, trackIds)
+        }
+      >
+        {isPlaying ? (
+          <AudioLines size={20} />
+        ) : (
+          <>
+            <span className="album-track-number">
+              {track.track_number}
+            </span>
 
-                  <span className="track-duration">
-                    {formatDuration(track.duration_ms)}
-                  </span>
+            <Play
+              size={18}
+              className="album-track-play-icon"
+            />
+          </>
+        )}
+      </button>
 
-                  {track.external_urls?.spotify && (
-                    <a
-                      href={track.external_urls.spotify}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={`Open ${track.name} in Spotify`}
-                    >
-                      <ExternalLink size={16} />
-                    </a>
-                  )}
-                </div>
-              ))}
+      <div className="track-information">
+        <h4>{track.name}</h4>
+
+        <p>
+          {track.artists
+            .map(artist => artist.name)
+            .join(', ')}
+        </p>
+
+        {isPlaying && (
+          <span className="album-now-playing">
+            Now Playing
+          </span>
+        )}
+      </div>
+
+      <span className="track-duration">
+        {formatDuration(track.duration_ms)}
+      </span>
+
+      {track.external_urls?.spotify && (
+        <a
+          href={track.external_urls.spotify}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label={`Open ${track.name} in Spotify`}
+        >
+          <ExternalLink size={16} />
+        </a>
+      )}
+    </div>
+  )
+})}
 
               {details.tracks.total > details.tracks.items.length && (
                 <p>Open the album in Spotify to view all tracks.</p>

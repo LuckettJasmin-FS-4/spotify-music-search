@@ -39,7 +39,10 @@ type MusicSearchProps = {
   displayName: string
   onSessionExpired: () => void
   selectedMood?: string
-  onPlayTrack?: (trackId: string) => Promise<void>
+  onPlayTrack?: (
+  trackId: string,
+  trackIds?: string[]
+) => Promise<void>
   isPlayerReady?: boolean
 }
 function MusicSearch({
@@ -181,7 +184,12 @@ function MusicSearch({
   className="racket-track-play"
   disabled={!isPlayerReady || !onPlayTrack}
   aria-label={`Play ${track.name} in Racket`}
-  onClick={() => void onPlayTrack?.(track.id)}
+onClick={() =>
+  void onPlayTrack?.(
+    track.id,
+    results.tracks.map((song) => song.id)
+  )
+}
 >
   <Play size={18} />
   Play in Racket

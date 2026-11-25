@@ -76,3 +76,33 @@
     transform: none;
   }
 }
+.liked-song-playing {
+  border: 1px solid #93c5fd;
+  box-shadow: 0 0 20px rgba(147, 197, 253, 0.2);
+}
+
+.liked-song-placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100px;
+  border-radius: 12px;
+  background: #172e49;
+  color: #93c5fd;
+}
+
+.liked-song-spotify-link {
+  display: inline-block;
+  color: #93c5fd;
+  font-size: 12px;
+  text-decoration: none;
+}
+
+.liked-song-spotify-link:hover {
+  text-decoration: underline;
+}
+
+.liked-song-card .racket-track-play {
+  font-size: 12px;
+  padding: 8px 12px;
+}

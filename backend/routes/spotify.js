@@ -491,4 +491,10 @@ router.get("/albums/:id", (req, res) => {
 router.get("/artists/:id", (req, res) => {
   return getSpotifyDetails(req, res, "artists");
 });
+
+// Get an individual playlist.
+router.get("/playlists/:id", (req, res) => {
+  return getSpotifyDetails(req, res, "playlists");
+});
+
 module.exports = router;
